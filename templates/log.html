@@ -1,0 +1,68 @@
+<head>
+    {%load static%}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <title>FootBall TV</title>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><i class="far fa-futbol"></i>FootBall TV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " href="#" tabindex="-1" >Contact Us</a>
+            </li>
+            </ul>
+        </div>
+        <div class="navbar-nav navbar-right" >
+            <a class="nav-item nav-link"  href="{% url 'register'%}"><i class="fas fa-user-plus"></i>Sign Up</a>
+            <a class="nav-item nav-link"  href="{% url 'log'%}"><i class="fas fa-sign-in-alt"></i>Login</a>
+        </div>
+    </nav>
+<div class="card bg-light">
+<article class="card-body mx-auto" style="max-width: 400px;">
+	<h4 class="card-title mt-3 text-center">Login</h4>
+	<br>
+    <form action = "" method="POST">
+        {% csrf_token %}
+        {%for message in messages%}
+            <h4 class="message-login">{{message}}</h4>
+        {%endfor%}
+        <div class="form-group input-group">
+        	<div class="input-group-prepend">
+	    	    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+	    	 </div>
+            <input name="username" class="form-control" placeholder="Username" type="text">
+        </div> <!-- form-group// -->
+    
+        <div class="form-group input-group">
+        	<div class="input-group-prepend">
+	    	    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+	    	</div>
+            <input name="password" class="form-control" placeholder="Password" type="password">
+        </div> <!-- form-group// -->
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">  Login  </button>
+        </div> <!-- form-group// -->      
+        <p class="text-center">Don't have account <a href="{% url 'register'%}">SignUp</a> </p>                                                                 
+    </form>
+</article>
+</div> <!-- card.// -->
+
+</div> 
+<!--container end.//-->

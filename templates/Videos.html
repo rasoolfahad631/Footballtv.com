@@ -1,0 +1,79 @@
+{%load embed_video_tags%}
+<head>
+    {%load static%}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% comment %} <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css"> {% endcomment %}
+    <title>FootBall TV</title>
+</head>
+<style>
+    .form-group{
+        margin-bottom:0rem;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index'%}"><i class="far fa-futbol"></i>FootBall TV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index'%}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " href="#" tabindex="-1" >Contact Us</a>
+            </li>
+            </ul>
+        </div>
+        <div class="navbar-nav navbar-right" >
+                {%if request.user.is_superuser%}<a href="{% url 'analysis'%} " class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Analyze</a>{%endif%}
+            <a class="nav-item nav-link"  href="#">Hello! {{user.username}}</a>
+            <a class="nav-item nav-link"  href="{% url 'logouts'%} "><i class="fas fa-sign-in-alt"></i>Logout</a>
+        </div>
+    </nav>
+    {%if request.user.is_superuser%}
+        <form action="{% url 'add_video'%}" method="POST" >
+        {% csrf_token %}
+            <div style="width:920;margin-left:300px ;margin-top:30px" class="form-group input-group">
+                <div class="input-group-prepend">
+	            	<span class="input-group-text">  </span>
+	             </div>
+                <input name="url" class="form-control" placeholder="Enter url" type="text" required>
+            </div> <!-- form-group// -->
+            <div style="width:920;margin-left:300px;margin-top:30px;margin-bottom:30px" class="form-group input-group">
+                <div class="input-group-prepend">
+	            	<span class="input-group-text">  </span>
+	             </div>
+                <input name="title" class="form-control" placeholder="Video title" type="text" required>
+            </div> <!-- form-group// -->
+            <div style="width:920;margin-left:300px;margin-top:30px;margin-bottom:30px" class="form-group input-group">
+                <input  class="btn btn-sm btn-primary"  type="submit" value="Add">
+            </div> <!-- form-group// -->
+
+        </form>
+
+    {%endif%}
+    {%for i in obj%}
+        <div class="container" style="padding-top:50px">
+            {%video i.video 'tiny'%}
+            <form action="{% url 'play' i.id%}" method="POST" >
+                {%csrf_token%}
+                    <p style="position:relative;left:500px;bottom:320px;font-weight: bold;font-family:Times New Roman;font-size:35px">{{i.video_title}}</p>
+                    <button style="position:relative;width:250px;left:500px;bottom:115px;" name="video" class="btn btn-lg btn-danger"  type="submit"  value="{{i.id}}"><i class="far fa-play-circle"></i> Play</button>
+                    <p style="position:relative;left:780px;bottom:150px;font-weight: bold;font-family:Times New Roman;"><i class="fa fa-eye" aria-hidden="true"></i> : ({{i.views}})</p>
+            </form>
+            <hr style="background: black;">
+        </div>
+    {%endfor%}
+
+<script>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title></title>
+  </head>
+  
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index'%}"><i class="far fa-futbol"></i>FootBall TV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index'%}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " href="#" tabindex="-1" >Contact Us</a>
+            </li>
+            </ul>
+        </div>
+        <div class="navbar-nav navbar-right" >
+                {%if request.user.is_superuser%}<a href="{% url 'analysis'%} " class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Analyze</a>{%endif%}
+            <a class="nav-item nav-link"  href="#">Hello! {{user.username}}</a>
+            <a class="nav-item nav-link"  href="{% url 'logouts'%} "><i class="fas fa-sign-in-alt"></i>Logout</a>
+        </div>
+    </nav>
+<script>
+    $(document).ready(function(){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: [{% for i in context%}'{{i.video_title}}',{%endfor%}],
+                datasets: [{
+                    label: '# of Views',
+                    data: [{% for i in context%}'{{i.views}}',{%endfor%}],
+                    backgroundColor: "yellow",
+                    borderColor: "black",
+                    borderWidth: 5,
+                }]
+            },
+            options: {
+                scales: {
+                    pointLabels:{
+                        fontStyle: "bold",
+                    
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            }
+
+        });
+    });
+</script>
+<body>
+    <canvas id="myChart" width="350" height="150"></canvas>
+</body>
+</html>
